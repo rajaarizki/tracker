@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier de candidatures — Rajaa Rizki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E7ECEE;
+    --paper-line:#c4d0d4;
+    --ink:#16324F;
+    --ink-soft:#3d5266;
+    --line:#9fb3bf;
+    --amber:#C6631B;
+    --amber-soft:#f0d9c4;
+    --green:#3F7A63;
+    --green-soft:#d9e8e0;
+    --yellow:#B8912B;
+    --yellow-soft:#f2e6c4;
+    --orange:#C6631B;
+    --orange-soft:#f2ddc4;
+    --red:#B0473D;
+    --red-soft:#f2d9d5;
+    --white:#FBFBF9;
+    --shadow: 0 1px 0 rgba(22,50,79,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 28px,
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px) 0 0/28px 100%,
+      var(--paper);
+    background-attachment:local;
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    min-height:100vh;
+    padding:24px;
+  }
+  .sheet{
+    max-width:1100px;
+    margin:0 auto;
+    background:var(--white);
+    border:1.5px solid var(--ink);
+    box-shadow: 6px 6px 0 rgba(22,50,79,0.12);
+  }
+  /* Title block */
+  .titleblock{
+    display:flex;
+    border-bottom:1.5px solid var(--ink);
+  }
+  .titleblock .main{
+    flex:1;
+    padding:22px 26px;
+    border-right:1.5px solid var(--ink);
+  }
+  .titleblock h1{
+    margin:0 0 4px 0;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .titleblock p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:13.5px;
+    max-width:46ch;
+  }
+  .stats{
+    display:flex;
+  }
+  .stat{
+    width:96px;
+    padding:14px 10px;
+    border-right:1.5px solid var(--ink);
+    text-align:center;
+  }
+  .stat:last-child{border-right:none;}
+  .stat .n{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:22px;
+    font-weight:600;
+    line-height:1;
+  }
+  .stat .l{
+    font-size:10.5px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    line-height:1.3;
+  }
+  /* Toolbar */
+  .toolbar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 26px;
+    border-bottom:1.5px solid var(--ink);
+    flex-wrap:wrap;
+  }
+  .toolbar input[type="text"]{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    padding:8px 10px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+    width:220px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    padding:6px 10px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .chip.active{
+    background:var(--ink);
+    color:var(--white);
+    border-color:var(--ink);
+  }
+  .spacer{flex:1;}
+  .btn-primary{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    padding:9px 16px;
+    background:var(--amber);
+    color:var(--white);
+    border:1px solid var(--amber);
+    cursor:pointer;
+  }
+  .btn-primary:hover{background:#a8531a;}
+  /* Table */
+  table{width:100%;border-collapse:collapse;}
+  thead th{
+    text-align:left;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    font-weight:500;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+  }
+  tbody tr{
+    border-bottom:1px solid var(--paper-line);
+    cursor:pointer;
+  }
+  tbody tr:hover{background:var(--paper);}
+  tbody td{
+    padding:12px;
+    font-size:13.5px;
+    vertical-align:top;
+  }
+  .company{font-weight:600;}
+  .position{color:var(--ink-soft);font-size:12.5px;}
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    padding:3px 8px;
+    border-radius:2px;
+  }
+  .badge.green{background:var(--green-soft);color:var(--green);}
+  .badge.yellow{background:var(--yellow-soft);color:var(--yellow);}
+  .badge.orange{background:var(--orange-soft);color:var(--orange);}
+  .badge.red{background:var(--red-soft);color:var(--red);}
+  .badge .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .status-pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    padding:4px 9px;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .status-pill.interview{border-color:var(--green);color:var(--green);}
+  .status-pill.offer{border-color:var(--green);color:var(--green);background:var(--green-soft);}
+  .status-pill.rejected{border-color:var(--red);color:var(--red);}
+  .status-pill.waiting{border-color:var(--yellow);color:var(--yellow);}
+  .empty{
+    padding:60px 26px;
+    text-align:center;
+    color:var(--ink-soft);
+  }
+  .empty .big{font-size:15px;margin-bottom:6px;color:var(--ink);}
+  /* Drawer */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(22,50,79,0.35);
+    display:none;
+    z-index:10;
+  }
+  .overlay.open{display:block;}
+  .drawer{
+    position:fixed;
+    top:0;right:0;
+    width:420px;
+    max-width:92vw;
+    height:100%;
+    background:var(--white);
+    border-left:1.5px solid var(--ink);
+    z-index:11;
+    transform:translateX(100%);
+    transition:transform 0.22s ease;
+    overflow-y:auto;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 22px;
+    border-bottom:1.5px solid var(--ink);
+    position:sticky;top:0;background:var(--white);
+  }
+  .drawer-head h2{margin:0;font-size:16px;}
+  .drawer-head button{
+    background:none;border:none;
+    font-size:20px;cursor:pointer;color:var(--ink-soft);
+    line-height:1;padding:2px 6px;
+  }
+  .drawer-body{padding:20px 22px 40px;}
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+  }
+  .field input, .field select, .field textarea{
+    width:100%;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13.5px;
+    padding:8px 10px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .field textarea{resize:vertical;min-height:60px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;}
+  .row2{display:flex;gap:12px;}
+  .row2 .field{flex:1;}
+  .drawer-actions{
+    display:flex;gap:10px;
+    padding:16px 22px;
+    border-top:1px solid var(--paper-line);
+    position:sticky;bottom:0;background:var(--white);
+  }
+  .btn-secondary{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13px;font-weight:600;
+    padding:9px 14px;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .btn-danger{color:var(--red);border-color:var(--red);}
+  a.applink{color:var(--amber);text-decoration:none;font-size:12px;}
+  a.applink:hover{text-decoration:underline;}
+  ::placeholder{color:#9fb3bf;}
+  @media (max-width:720px){
+    .stats{display:none;}
+    table thead{display:none;}
+    tbody tr{display:block;padding:10px 12px;}
+    tbody td{display:block;padding:2px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <div class="titleblock">
+    <div class="main">
+      <h1>Dossier de candidatures</h1>
+      <p>Suivi des candidatures — Rajaa Rizki, Ingénieure Mécanique. Une ligne par offre, du premier contact à la réponse.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="stat-total">0</div><div class="l">total</div></div>
+      <div class="stat"><div class="n" id="stat-active">0</div><div class="l">en cours</div></div>
+      <div class="stat"><div class="n" id="stat-interview">0</div><div class="l">entretiens</div></div>
+      <div class="stat"><div class="n" id="stat-rate">0%</div><div class="l">taux réponse</div></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="Rechercher une entreprise ou un poste...">
+    <button class="chip active" data-filter="all">Toutes</button>
+    <button class="chip" data-filter="À postuler">À postuler</button>
+    <button class="chip" data-filter="Envoyée">Envoyée</button>
+    <button class="chip" data-filter="En attente">En attente</button>
+    <button class="chip" data-filter="Entretien">Entretien</button>
+    <button class="chip" data-filter="Refusée">Refusée</button>
+    <button class="chip" data-filter="Offre">Offre</button>
+    <div class="spacer"></div>
+    <button class="btn-primary" id="add-btn">+ Nouvelle candidature</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Entreprise / Poste</th>
+        <th>Lieu</th>
+        <th>Match</th>
+        <th>Statut</th>
+        <th>Postulé le</th>
+        <th>Relance</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="empty" id="empty-state" style="display:none;">
+    <div class="big">Aucune candidature ici.</div>
+    <div>Ajoute ta première offre pour commencer le suivi.</div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2 id="drawer-title">Nouvelle candidature</h2>
+    <button id="close-drawer">&times;</button>
+  </div>
+  <div class="drawer-body">
+    <div class="row2">
+      <div class="field"><label>Entreprise</label><input type="text" id="f-company" placeholder="Ex. SEWS CABIND"></div>
+      <div class="field"><label>Poste</label><input type="text" id="f-position" placeholder="Ex. Ingénieur Méthodes"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Lieu</label><input type="text" id="f-location" placeholder="Ex. Casablanca"></div>
+      <div class="field"><label>Score de correspondance (1-10)</label><input type="number" id="f-match" min="1" max="10" placeholder="8"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Date trouvée</label><input type="date" id="f-datefound"></div>
+      <div class="field"><label>Date postulée</label><input type="date" id="f-dateapplied"></div>
+    </div>
+    <div class="field"><label>Lien de l'offre</label><input type="text" id="f-link" placeholder="https://..."></div>
+    <div class="row2">
+      <div class="field"><label>Statut</label>
+        <select id="f-status">
+          <option>À postuler</option>
+          <option>Envoyée</option>
+          <option>En attente</option>
+          <option>Entretien</option>
+          <option>Refusée</option>
+          <option>Offre</option>
+        </select>
+      </div>
+      <div class="field"><label>Date de relance</label><input type="date" id="f-followup"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Version du CV</label><input type="text" id="f-cv" placeholder="Ex. Méthodes / Conception"></div>
+      <div class="field"><label>Lettre de motivation</label><input type="text" id="f-letter" placeholder="Oui / Non / à faire"></div>
+    </div>
+    <div class="field"><label>Contact / recruteur</label><input type="text" id="f-contact" placeholder="Nom, LinkedIn, email..."></div>
+    <div class="field"><label>Réponse reçue</label><input type="text" id="f-response" placeholder="Ex. Aucune / Refus / Entretien proposé"></div>
+    <div class="field"><label>Notes</label><textarea id="f-notes" placeholder="Points à retenir, échange avec le recruteur, préparation entretien..."></textarea></div>
+  </div>
+  <div class="drawer-actions">
+    <button class="btn-primary" id="save-btn" style="flex:1;">Enregistrer</button>
+    <button class="btn-danger btn-secondary" id="delete-btn" style="display:none;">Supprimer</button>
+  </div>
+</div>
+
+<script>
+let apps = [];
+let editingId = null;
+let currentFilter = 'all';
+
+const STORAGE_KEY = 'rajaa-job-applications';
+
+async function loadApps(){
+  try{
+    const result = await window.storage.get(STORAGE_KEY, false);
+    apps = result ? JSON.parse(result.value) : [];
+  }catch(e){
+    apps = [];
+  }
+  render();
+}
+
+async function saveApps(){
+  try{
+    await window.storage.set(STORAGE_KEY, JSON.stringify(apps), false);
+  }catch(e){
+    console.error('Storage error', e);
+  }
+}
+
+function statusClass(status){
+  if(status === 'Entretien') return 'interview';
+  if(status === 'Offre') return 'offer';
+  if(status === 'Refusée') return 'rejected';
+  if(status === 'En attente') return 'waiting';
+  return '';
+}
+
+function matchBadge(score){
+  score = Number(score) || 0;
+  let cls, label;
+  if(score >= 8){cls='green';} 
+  else if(score >= 6){cls='yellow';}
+  else if(score >= 4){cls='orange';}
+  else {cls='red';}
+  return `<span class="badge ${cls}"><span class="dot"></span>${score}/10</span>`;
+}
+
+function render(){
+  const search = document.getElementById('search').value.toLowerCase();
+  const rows = document.getElementById('rows');
+  rows.innerHTML = '';
+
+  let filtered = apps.filter(a=>{
+    const matchesFilter = currentFilter === 'all' || a.status === currentFilter;
+    const matchesSearch = !search || (a.company||'').toLowerCase().includes(search) || (a.position||'').toLowerCase().includes(search);
+    return matchesFilter && matchesSearch;
+  });
+
+  filtered.sort((a,b)=> (b.dateApplied||'').localeCompare(a.dateApplied||'') || (b.match||0)-(a.match||0));
+
+  document.getElementById('empty-state').style.display = filtered.length ? 'none' : 'block';
+
+  filtered.forEach(a=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="company">${escapeHtml(a.company||'—')}</div><div class="position">${escapeHtml(a.position||'')}</div></td>
+      <td>${escapeHtml(a.location||'—')}</td>
+      <td>${matchBadge(a.match)}</td>
+      <td><span class="status-pill ${statusClass(a.status)}">${escapeHtml(a.status||'À postuler')}</span></td>
+      <td>${a.dateApplied||'—'}</td>
+      <td>${a.followUp||'—'}</td>
+    `;
+    tr.addEventListener('click', ()=> openDrawer(a.id));
+    rows.appendChild(tr);
+  });
+
+  document.getElementById('stat-total').textContent = apps.length;
+  document.getElementById('stat-active').textContent = apps.filter(a=>['Envoyée','En attente','Entretien'].includes(a.status)).length;
+  document.getElementById('stat-interview').textContent = apps.filter(a=>a.status==='Entretien' || a.status==='Offre').length;
+  const sentCount = apps.filter(a=>a.status && a.status !== 'À postuler').length;
+  const respondedCount = apps.filter(a=>['Entretien','Refusée','Offre'].includes(a.status)).length;
+  document.getElementById('stat-rate').textContent = sentCount ? Math.round(100*respondedCount/sentCount)+'%' : '0%';
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function openDrawer(id){
+  editingId = id;
+  const a = id ? apps.find(x=>x.id===id) : {};
+  document.getElementById('drawer-title').textContent = id ? 'Modifier la candidature' : 'Nouvelle candidature';
+  document.getElementById('f-company').value = a.company||'';
+  document.getElementById('f-position').value = a.position||'';
+  document.getElementById('f-location').value = a.location||'';
+  document.getElementById('f-match').value = a.match||'';
+  document.getElementById('f-datefound').value = a.dateFound||'';
+  document.getElementById('f-dateapplied').value = a.dateApplied||'';
+  document.getElementById('f-link').value = a.link||'';
+  document.getElementById('f-status').value = a.status||'À postuler';
+  document.getElementById('f-followup').value = a.followUp||'';
+  document.getElementById('f-cv').value = a.cv||'';
+  document.getElementById('f-letter').value = a.letter||'';
+  document.getElementById('f-contact').value = a.contact||'';
+  document.getElementById('f-response').value = a.response||'';
+  document.getElementById('f-notes').value = a.notes||'';
+  document.getElementById('delete-btn').style.display = id ? 'block' : 'none';
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+
+function closeDrawer(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  editingId = null;
+}
+
+async function saveEntry(){
+  const data = {
+    id: editingId || 'app_' + Date.now(),
+    company: document.getElementById('f-company').value.trim(),
+    position: document.getElementById('f-position').value.trim(),
+    location: document.getElementById('f-location').value.trim(),
+    match: document.getElementById('f-match').value,
+    dateFound: document.getElementById('f-datefound').value,
+    dateApplied: document.getElementById('f-dateapplied').value,
+    link: document.getElementById('f-link').value.trim(),
+    status: document.getElementById('f-status').value,
+    followUp: document.getElementById('f-followup').value,
+    cv: document.getElementById('f-cv').value.trim(),
+    letter: document.getElementById('f-letter').value.trim(),
+    contact: document.getElementById('f-contact').value.trim(),
+    response: document.getElementById('f-response').value.trim(),
+    notes: document.getElementById('f-notes').value.trim(),
+  };
+  if(!data.company){
+    alert('Le nom de l\'entreprise est requis.');
+    return;
+  }
+  if(editingId){
+    const idx = apps.findIndex(x=>x.id===editingId);
+    apps[idx] = data;
+  }else{
+    apps.push(data);
+  }
+  await saveApps();
+  closeDrawer();
+  render();
+}
+
+async function deleteEntry(){
+  if(!editingId) return;
+  if(!confirm('Supprimer cette candidature ?')) return;
+  apps = apps.filter(x=>x.id!==editingId);
+  await saveApps();
+  closeDrawer();
+  render();
+}
+
+document.getElementById('add-btn').addEventListener('click', ()=> openDrawer(null));
+document.getElementById('close-drawer').addEventListener('click', closeDrawer);
+document.getElementById('overlay').addEventListener('click', closeDrawer);
+document.getElementById('save-btn').addEventListener('click', saveEntry);
+document.getElementById('delete-btn').addEventListener('click', deleteEntry);
+document.getElementById('search').addEventListener('input', render);
+
+document.querySelectorAll('.chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    currentFilter = chip.dataset.filter;
+    render();
+  });
+});
+
+loadApps();
+</script>
+
+</body>
+</html>
